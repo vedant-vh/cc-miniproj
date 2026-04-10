@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id               Int        @id @default(autoincrement())
+  email            String     @unique
+  password         String
+  name             String?
+  codeforcesHandle String?
+  leetcodeHandle   String?
+  codechefHandle   String?
+  reminders        Reminder[]
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+}
+
+model Contest {
+  id        Int        @id @default(autoincrement())
+  platform  String   
+  name      String
+  url       String     @unique
+  startTime DateTime
+  endTime   DateTime
+  duration  Int      
+  reminders Reminder[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model Reminder {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  contestId Int
+  user      User     @relation(fields: [userId], references: [id])
+  contest   Contest  @relation(fields: [contestId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([userId, contestId])
+}
