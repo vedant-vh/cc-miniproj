@@ -1,0 +1,12 @@
+{
+  "name": "cc-miniproj-root",
+  "private": true,
+  "scripts": {
+    "build": "cd client && npm install && npm run build",
+    "start": "cd client && npm start",
+    "dev": "cd client && npm run dev",
+    "vercel-build": "cd client && npm install && npm run build"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
