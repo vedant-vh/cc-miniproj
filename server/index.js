@@ -21,6 +21,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 // Routes
+app.get('/', (req, res) => res.json({ status: 'API is running', version: '1.0.0' }));
 app.use('/api/auth', authRoutes);
 
 // ----------------------------------------------------

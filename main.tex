@@ -1,0 +1,461 @@
+\documentclass[12pt,a4paper]{report}     % font size= 12,paper size= a4, document type= report 
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage{fancybox}		% For formatting of cover page
+\usepackage{amsmath}     	% For  mathematical formulae
+\usepackage{amssymb}
+\usepackage{setspace}		% For adjusting line spacing 
+\usepackage{pdfpages}
+\usepackage{hyperref}       % pacakage for 
+\usepackage{fancyhdr}       % pacakage for including header and footer 
+\usepackage{times}          % package for font type
+\usepackage[left=1in,right=1in,top=1in,bottom=0.8in]{geometry}
+\usepackage{rotating}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{amsfonts}
+\usepackage{float}          % <--- ADDED THIS to fix image placement
+
+\makeatletter
+\def\@makechapterhead#1{%
+  \vspace*{5\p@}%
+  {\parindent \z@ \raggedright \normalfont
+    \ifnum \c@secnumdepth >\m@ne
+       \LARGE\bfseries \space \thechapter. \space
+    \interlinepenalty\@M
+    \LARGE \bfseries #1\par\nobreak
+    \vskip 10\p@
+  }}
+  \makeatother
+\begin{document}
+\newpage
+\pagestyle{plain}
+\pagestyle{empty}
+\pagestyle{fancy}							%display header, footer
+\renewcommand{\headrulewidth}{0pt}
+\fancypagestyle{plain}{}
+
+	\pagenumbering{gobble}
+	\thisfancyput(-0.0in,-10.0in){%
+\setlength{\unitlength}{1in}\framebox(6.7,10.2)}
+\begin{titlepage}
+
+\begin{center}
+
+\textbf{SCTR’s Pune Institute of Computer Technology}\\
+\vspace{0.2cm}
+Dhankawadi, Pune\\
+A.Y. 2025--26
+
+\vspace{1cm}
+
+\begin{center}
+\large \textbf{CCL MINI ``SAAS'' PROJECT REPORT}
+
+\vspace{0.6cm}
+
+\normalsize ON
+\end{center}
+
+\vspace{0.8cm}
+
+\textbf{\Large ``DevCard: A Multi-Tenant Link-in-Bio SaaS for Developers''}
+
+\vspace{1cm}
+
+\textbf{Submitted By}\\
+\vspace{0.3cm}
+
+Prathamesh Jadhav\\
+Class: TE-09\\
+Roll No: 33144
+
+\vspace{1cm}
+
+\textbf{Under the guidance of}\\
+\vspace{0.2cm}
+Mr. Sachin Pande
+
+\vspace{2cm}
+
+\includegraphics[width=4cm]{pict_logo.png}
+
+\vspace{2cm}
+
+\textbf{DEPARTMENT OF INFORMATION TECHNOLOGY}\\
+PUNE INSTITUTE OF COMPUTER TECHNOLOGY\\
+SR. NO 27, PUNE-SATARA ROAD, DHANKAWADI\\
+PUNE -- 411 043.\\
+
+\vspace{0.5cm}
+
+AY: 2025--2026
+
+\end{center}
+
+\end{titlepage}
+%------------------------------------------------------------------------------
+%  Cover ends here
+%------------------------------------------------------------------------------
+%------------------------------------------------------------------------------
+%  Certificate starts here
+%-------------------------------------------------------------------
+%-----------------------------------Abstract------------------------------------------
+\newpage
+\pagestyle{plain}
+\begin{center}
+	\begin{LARGE}
+		\section*{ Abstract}
+	\end{LARGE}
+\end{center}
+\vspace{0.5cm}
+
+{\normalsize
+\setlength{\baselineskip}{1.1\baselineskip}
+
+\noindent
+DevCard is a multi-tenant, cloud-hosted "Link-in-Bio" Software-as-a-Service (SaaS) designed specifically for software developers. Built using React, Tailwind CSS, and Shadcn UI on the frontend, and powered by Supabase for backend database and authentication, DevCard provides developers with a centralized, professional digital portfolio. 
+
+\vspace{0.3cm}
+
+\noindent
+With the tech industry's reliance on multiple platforms (GitHub, LeetCode, LinkedIn, personal websites), developers need a unified way to share their achievements. DevCard solves this by offering a dual-experience architecture: a secure, private dashboard for creators to manage their data via Google OAuth, and a lightning-fast, public dynamic route (/[username]) for recruiters and peers to view a read-only profile.
+
+\vspace{0.3cm}
+
+\noindent
+Deployed on Vercel's edge network, the application demonstrates modern cloud-native architecture. By leveraging Supabase as a Backend-as-a-Service (BaaS) for PostgreSQL data storage and identity management, DevCard eliminates the need for complex server provisioning while ensuring high availability, rapid continuous deployment, and strict multi-tenant data isolation.
+
+\vspace{0.6cm}
+
+\noindent
+\textbf{Keywords:} SaaS, React, Supabase, Vercel, Link-in-Bio, Cloud Computing, PostgreSQL, Multi-Tenant
+}
+\addcontentsline{toc}{section}{Abstract}
+%---------------------------------Abstract ends---------------------------------------
+\newpage
+
+\section*{Abbreviations}
+\addcontentsline{toc}{section}{Abbreviations}
+
+\begin{tabular}{ll}
+SaaS & Software as a Service \\
+API  & Application Programming Interface \\
+UI   & User Interface \\
+BaaS & Backend as a Service \\
+HTML & HyperText Markup Language \\
+CSS  & Cascading Style Sheets \\
+SPA  & Single Page Application \\
+DB   & Database \\
+RLS  & Row Level Security \\
+\end{tabular} 	
+
+\newpage
+
+\thispagestyle{empty}
+\fancyhead{}
+\renewcommand{\headrulewidth}{0pt}
+
+\addcontentsline{toc}{section}{Contents}
+\tableofcontents
+							% auto generate 
+%-----------------------------------Chapter 1 Introduction}
+\newpage
+\pagestyle{fancy}
+\pagenumbering{arabic}
+\renewcommand{\headrulewidth}{0.5pt}
+\fancyhead[RO]{\textit{DevCard SaaS Platform}}
+\fancyhead[LO]{\textit{CC Mini Project Report}}												 
+\renewcommand{\footrulewidth}{0.5pt}
+\fancyfoot[RO]{\textit{Dept. of Information Technology}}		
+\fancyfoot[LO]{\textit{PICT, Pune}}			
+\fancypagestyle{plain}{}
+
+\chapter{\centering{Introduction}}
+\begin{normalsize}
+
+%---------------- PURPOSE ----------------
+\section{Purpose}
+
+The purpose of this project is to develop a \textbf{Software-as-a-Service (SaaS) based Link-in-Bio platform} tailored for software engineers. The system allows developers to aggregate their scattered technical profiles—such as GitHub repositories, LeetCode problem-solving statistics, and LinkedIn history—into one premium, centralized public URL. 
+
+%---------------- PROBLEM STATEMENT ----------------
+\section{Problem Statement}
+
+In today's competitive tech landscape, a software developer's digital footprint is scattered across various platforms. A recruiter or peer often has to navigate separately to multiple websites to view an engineer's full capabilities. While generic link-aggregation tools like Linktree exist, they lack the polished, developer-centric design and specific data fields required to highlight technical achievements effectively.
+
+%---------------- OBJECTIVES ----------------
+\section{Objectives}
+
+\begin{itemize}
+    \item To design and develop a SaaS-based web application for digital portfolios.
+    \item To implement secure, frictionless authentication using Google OAuth.
+    \item To build a decoupled architecture utilizing a React frontend and Supabase Backend-as-a-Service.
+    \item To implement multi-tenancy, allowing unique dynamic routing for every user.
+    \item To deploy the application using Vercel's edge network for low-latency global access.
+\end{itemize}
+
+%---------------- SCOPE ----------------
+\section{Scope}
+
+The scope of this project includes the development of a fully functional web platform supporting multiple users simultaneously. The system focuses on providing a secure dashboard for data entry and generating an instant, read-only public profile card. 
+
+The application is designed to be highly responsive and scalable. It demonstrates core Cloud Computing concepts by leveraging third-party cloud infrastructure (Supabase for PostgreSQL databases and identity management, and Vercel for serverless edge deployment) rather than provisioning traditional local servers.
+
+\end{normalsize}
+
+
+\chapter{\centering{Motivation}}
+\begin{normalsize}
+
+The inspiration for DevCard stemmed from the personal challenge of tracking and sharing technical milestones. For a student or professional developer—especially one who has achieved significant milestones, such as solving over 600 Data Structures and Algorithms problems or building complex full-stack projects—sharing these accomplishments usually requires sending a cluttered list of hyperlinks. 
+
+Existing solutions have several limitations:
+
+\begin{itemize}
+    \item They are overly generic and heavily monetized for basic features.
+    \item They do not cater to the specific aesthetic or functional needs of software engineers.
+    \item They lack dedicated sections for tech-specific metrics like skills arrays or coding platform links.
+\end{itemize}
+
+DevCard was conceptualized to address these exact pain points by offering:
+
+\begin{itemize}
+    \item \textbf{Frictionless Onboarding:} One-click Google OAuth login, eliminating password fatigue.
+    \item \textbf{Developer-Centric Data:} Dedicated fields for GitHub, LeetCode, and technical skill arrays.
+    \item \textbf{Instant Provisioning:} Immediate generation of a custom, shareable public URL upon form submission.
+\end{itemize}
+
+This project also provided a valuable opportunity to transition from building monolithic applications to exploring modern cloud architectures. Working with Supabase and Vercel offered hands-on experience with serverless authentication, PostgreSQL database management in the cloud, and continuous integration/continuous deployment (CI/CD) pipelines.
+
+\end{normalsize}
+
+%---------------------------Analysis & Discussion----------------
+\chapter{\centering{System Architecture and Design}}
+
+\section{High-Level Architecture}
+
+DevCard follows a modern decoupled architecture, heavily reliant on Cloud Computing principles to ensure high availability and scalability without the overhead of manual server management.
+
+The frontend is developed using React 18 initialized via Vite. It handles all UI rendering, client-side routing via React Router v6, and form validation using Shadcn UI components. 
+
+The backend infrastructure is entirely managed by Supabase, acting as a Backend-as-a-Service (BaaS). Supabase handles the Google OAuth identity provisioning and hosts the PostgreSQL database.
+
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Layer} & \textbf{Technology} & \textbf{Responsibility} \\
+\hline
+Frontend UI & React, Tailwind CSS, Shadcn & User interface, form validation \\
+\hline
+Routing & React Router v6 & Private dashboard vs Public profiles \\
+\hline
+Database \& Auth & Supabase (PostgreSQL) & Data storage, Google OAuth \\
+\hline
+Deployment & Vercel & Edge hosting and CI/CD pipelines \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{0.3cm}
+
+\section{System Workflow}
+
+A typical interaction in the system works as follows:
+
+\begin{enumerate}
+    \item The user clicks "Continue with Google" on the frontend.
+    \item Supabase processes the OAuth request and returns a secure session token.
+    \item A PostgreSQL trigger automatically provisions a new row in the `profiles` table.
+    \item The user is redirected to the `/dashboard`, where they submit their links and skills via a secure form.
+    \item The React application performs an SQL `UPDATE` to the Supabase cloud database.
+    \item A recruiter visits `devcard.vercel.app/[username]`. The app queries the database for that specific username and renders the public card.
+\end{enumerate}
+
+\vspace{0.3cm}
+
+
+%---------------------------Proposed solution & its Design--------------
+\chapter{\centering{Implementation Details}}
+
+\section{Frontend Implementation}
+
+The frontend of DevCard is designed as a Single Page Application (SPA). To achieve a premium, modern aesthetic favored by developers, the application utilizes Tailwind CSS alongside Shadcn UI components. 
+
+The application is strictly separated into two domains using client-side routing:
+
+\begin{itemize}
+    \item \textbf{Protected Routes (/dashboard):} Wrapped in an authentication context, this route uses React Hook Form and Zod for robust client-side validation, allowing users to securely update their profile data. Access is blocked if a valid Supabase session is not detected.
+    \item \textbf{Public Dynamic Routes (/:username):} A read-only component that extracts the URL parameter, queries the database, and renders the specific developer's card.
+\end{itemize}
+
+
+\vspace{0.3cm}
+
+\section{Backend \& Cloud Infrastructure}
+
+Instead of building a traditional Node.js/Express server, DevCard utilizes Supabase to handle backend operations directly from the client.
+
+\begin{itemize}
+    \item \textbf{Authentication Integration:} Google OAuth was configured via the Google Cloud Console and linked to the Supabase Auth service, providing secure, token-based identity management.
+    \item \textbf{Database Schema:} A highly normalized PostgreSQL `profiles` table was created to store user metadata. The schema includes custom data types, such as text arrays, to store variable-length skill sets (e.g., `['React', 'Java', 'Cloud']`).
+    \item \textbf{Automated Triggers:} A custom PL/pgSQL function and trigger were written to automatically create a placeholder profile stub in the database the moment a new user signs up, intelligently handling username collisions.
+\end{itemize}
+
+\vspace{0.3cm}
+
+
+\section{Deployment Strategy}
+
+The application is deployed using Vercel.
+
+\begin{itemize}
+    \item \textbf{Edge Network:} The static frontend assets are distributed across Vercel's global edge network, ensuring the public profiles load instantly regardless of the viewer's geographical location.
+    \item \textbf{CI/CD Integration:} The GitHub repository is linked directly to Vercel. Any code pushed to the main branch automatically triggers a build and deployment process, demonstrating modern DevOps practices.
+\end{itemize}
+%---------------------------Tools & Technology ----------------
+\chapter{\centering{Tools and Technologies Used}}
+
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Category} & \textbf{Tool / Technology} & \textbf{Purpose} \\
+\hline
+Frontend Framework & React 18 (Vite) & Component-based UI architecture \\
+\hline
+Styling \& UI & Tailwind CSS, Shadcn UI & Premium design and responsive layouts \\
+\hline
+Backend / Database & Supabase & Managed PostgreSQL and BaaS \\
+\hline
+Authentication & Google OAuth & Secure user identity provisioning \\
+\hline
+Deployment & Vercel & Edge hosting and continuous delivery \\
+\hline
+Version Control & Git + GitHub & Code management and collaboration \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{0.3cm}
+
+
+\section{Supabase}
+
+Supabase serves as the core cloud infrastructure. It acts as an open-source Firebase alternative, providing a direct connection to a fully managed PostgreSQL database, eliminating the need to write repetitive CRUD API endpoints.
+
+\vspace{0.3cm}
+
+\section{Vercel}
+
+The entire application is deployed on Vercel. It provides fast hosting, automatic scaling, and easy deployment specifically optimized for modern JavaScript frameworks.
+
+%------------------- output---------------------
+\chapter{\centering{Output and Results}}
+
+\section{Output Screenshots}
+
+The following screenshots demonstrate the working output of the DevCard platform:
+
+% Changed from [h!] to [H] to force exact placement
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{oauth.png}
+\caption{Home Page with Google OAuth Login}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{form.png}
+\caption{Private Developer Dashboard and Form}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{profile.png}
+\caption{Generated Public DevCard Profile}
+\end{figure}
+
+\clearpage % Forces the next section onto a fresh page
+
+\section{Code Implementation}
+
+The following screenshots display the core frontend code and schema validation:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{landing_code.png}
+\caption{Frontend Implementation: LandingPage.jsx}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{dashboard_code.png}
+\caption{Frontend Validation Schema: Dashboard.jsx}
+\end{figure}
+
+\clearpage % Forces the next section onto a fresh page
+
+\section{Deployment URLs}
+
+DevCard is live and accessible from any device with an internet connection.
+
+\begin{itemize}
+    \item \textbf{Live Application URL:} \url{https://devcard-rho.vercel.app/}
+    \item \textbf{GitHub Repository:} \url{https://github.com/Prathamesh-2005/DevCard}
+\end{itemize}
+
+\vspace{0.3cm}
+
+\section{Results}
+
+The system successfully generates dynamic, personalized web profiles based on user database inputs.
+
+\begin{itemize}
+    \item Achieved strict multi-tenancy, isolating user data securely.
+    \item Successfully implemented dynamic routing (`/username`) based on real-time database queries.
+    \item Reduced backend deployment complexity by leveraging managed cloud services (BaaS).
+\end{itemize}
+
+%---------------------------Conclusion ----------------
+\newpage 
+\chapter{\centering{Conclusion}}
+\begin{normalsize}
+\setlength{\baselineskip}{1.3\baselineskip}
+
+DevCard successfully demonstrates how leveraging modern cloud computing services can drastically accelerate the development of a fully functional SaaS platform. By utilizing Supabase as a robust Backend-as-a-Service, the project achieved secure Google authentication, multi-tenant PostgreSQL data storage, and automated database triggers without the overhead of manually provisioning and securing traditional servers.
+
+The application solves a genuine problem for software developers by providing a centralized, aesthetically pleasing platform to aggregate their technical achievements and portfolios. Its edge deployment on Vercel ensures that the public profiles load instantly for recruiters and peers, regardless of their geographical location.
+
+While DevCard currently delivers core profile generation functionality, the cloud-native architecture leaves ample room for future expansion. Future iterations could easily integrate features such as page-view analytics, custom domain mapping, or enhanced theme customization. Ultimately, DevCard proves that combining specialized UI frameworks with modern serverless cloud infrastructure can yield high-quality, production-ready software efficiently.
+
+
+\end{normalsize}
+
+\newpage
+\chapter{\centering{References}}
+\begin{normalsize}
+\setlength{\baselineskip}{1.3\baselineskip}
+
+\section{References}
+
+\begin{enumerate}
+    \item React Documentation — \url{https://react.dev}
+    
+    \item Supabase Documentation — \url{https://supabase.com/docs}
+    
+    \item Vercel Documentation — \url{https://vercel.com/docs}
+    
+    \item Shadcn UI — \url{https://ui.shadcn.com}
+    
+    \item React Router v6 — \url{https://reactrouter.com}
+    
+    \item GitHub Documentation — \url{https://docs.github.com}
+    
+\end{enumerate}
+
+\end{normalsize}
+
+\end{document}
