@@ -12,8 +12,14 @@ require('./services/notifier');
 
 const app = express();
 
+// Clean FRONTEND_URL to prevent CORS trailing slash errors
+let frontendOrigin = process.env.FRONTEND_URL || 'http://localhost:3000';
+if (frontendOrigin.endsWith('/')) {
+  frontendOrigin = frontendOrigin.slice(0, -1);
+}
+
 const corsOptions = {
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: frontendOrigin,
   credentials: true,
 };
 
